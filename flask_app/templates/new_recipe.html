@@ -29,7 +29,7 @@
             {% endif %}
         {% endwith %}
 
-        <form class="col-6 mx-auto " action="/create/recipe" method="POST">
+        <form class="col-6 mx-auto " action="/create/recipe" method="POST" enctype="multipart/form-data">
             <div class="form-group ">
                 <label for="name">Nombre de la Receta</label>
                 <input type="text" id="name" name="name" class="form-control">
@@ -57,6 +57,10 @@
                 <input type="radio" id="under_30NO"  name="under_30" value="0">
                 <label for="under_30NO">No<label>
 
+            </div>
+            <div class="form-group">
+                <label for="images">Imagen</label>
+                <input type="file" id="images" name="images" class="form-control">
             </div>
 
             <input type="hidden" name="user_id" value="{{session['user_id']}}">

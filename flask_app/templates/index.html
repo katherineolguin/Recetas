@@ -31,6 +31,7 @@
                 {% endwith %}
 
 
+
                 <form action="/register" method="POST">
                     <div class=" row gap-3 p-4 form-group text-white">
 
@@ -54,7 +55,7 @@
                         <input type="password" id="confirm_password" name="confirm_password" class="form-control">
 
                     </div>
-                    <input type="submit" value="Registrame" class="btn btn-info gap-3">                    
+                    <input type="submit" value="Registrame" class="btn btn-info gap-3">
                 </form>
             </div>
 
@@ -65,7 +66,7 @@
                 <div class="  bg-dark p-3 text-success ">
                     <h1>Login</h1>
 
-                    {% with messages = get_flashed_messages(category_filter=['login']) %}
+                    <!-- {% with messages = get_flashed_messages(category_filter=['login']) %}
                     {% if messages %}
                     <div class="alert alert-danger">
                         {% for message in messages %}
@@ -73,9 +74,18 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-                    {% endwith %}
+                    {% endwith %} -->
 
-                    <form action="/login" method="POST">
+                    <div id="mensajeAlerta"></div>
+                    <!--esto e de ajax-->
+
+
+                    <form id="loginForm" action="/login" method="POST">
+                        <!--esto e de ajax-->
+
+                        <!-- <form action="/login" method="POST"> -->
+                        <!-- descomentar-->
+
                         <div class=" row gap-3 p-4 form-group text-white">
 
 
@@ -86,7 +96,7 @@
                             <input type="password" id="password2" name="password" class="form-control">
 
                         </div>
-                        <input type="submit" value="login" class="btn btn-success">                        
+                        <input type="submit" value="login" class="btn btn-success">
                     </form>
 
                 </div>
@@ -94,6 +104,9 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/index.js') }}">
+        </script>
+        <!--esto e de ajax-->
 
 </body>
 

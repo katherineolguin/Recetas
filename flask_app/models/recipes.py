@@ -14,6 +14,7 @@ class Recipe:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
+        self.images =data['images'] #es de ajax
 
         #left JOIN
 
@@ -47,7 +48,8 @@ class Recipe:
     @classmethod
     def save(cls, formulario):
 
-        query = "INSERT INTO recipes (name, description, instructions, date_made, under_30, user_id) VALUES (  %(name)s,   %(description)s,   %(instructions)s,  %(date_made)s,   %(under_30)s, %(user_id)s )"
+        query = "INSERT INTO recipes (name, description, instructions, date_made, under_30, user_id, images) VALUES (%(name)s, %(description)s, %(instructions)s, %(date_made)s, %(under_30)s, %(user_id)s, %(images)s)"
+
         result = connectToMySQL('esquema_recetas').query_db(query, formulario)
 
         return result

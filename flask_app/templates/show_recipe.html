@@ -47,6 +47,12 @@
 
                 </div>
 
+                <div>
+                    {% if recipe.images is not none %}
+                    <img src="{{ url_for('static', filename='images/'+recipe.images) }}" class="img-fluid">
+                    {% endif %}
+                </div>
+
             </div>
             <div class="card-footer bg-secondary">
                 Publicado por: {{recipe.first_name}}

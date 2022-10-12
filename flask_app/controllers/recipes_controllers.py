@@ -1,9 +1,14 @@
-from flask import render_template, redirect, session, request
+from flask import render_template, redirect, session, request, flash
 from flask_app import app
 
 #Importando los modelos
 from flask_app.models.users import User
 from flask_app.models.recipes import Recipe
+
+#IMPORTACIONES PARA SUBIR IMAGENES CON AJAX
+from werkzeug.utils import secure_filename
+import os
+
 
 @app.route('/new/recipe')
 def new_recipe():
@@ -29,11 +34,45 @@ def create_recipe():
     #Validación de Receta
     if not Recipe.valida_recetas(request.form):
         return redirect('/new/recipe')
+
+    #Validamos que haya subido algo
+    if 'images' not in request.files:
+        flash('No seleccionó ninguna images', 'receta')
+        return redirect('/new/recipe') 
+
+    images = request.files['images'] #Variable con imagen
+
+    #Validamos que no este vacío
+    if images.filename == '':
+        flash('Nombre de imagen vacío', 'receta')
+        return redirect('/new/recipe')
+
+        #Generamos de manera segura el nombre de la imagen
+    nombre_imagen = secure_filename(images.filename) 
+
+    #Guardamos la imagen
+    images.save(os.path.join(app.config['UPLOAD_FOLDER'], nombre_imagen))
     
+    #Diccionario con todos los datos del formulario
+
+    formulario ={
+        "name": request.form['name'],
+        "description": request.form['description'],
+        "instructions": request.form['instructions'],
+        "date_made": request.form['date_made'],
+        "under_30": int(request.form['under_30']),
+        "images": nombre_imagen,
+        "user_id": request.form['user_id']
+
+        
+
+    }
+
     #Guardamos la receta
-    Recipe.save(request.form)
+    Recipe.save(formulario)
 
     return redirect('/dashboard')
+
 
 
 @app.route('/edit/recipe/<int:id>')

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, session, flash
+from flask import render_template, redirect, request, session, flash, jsonify #jsonify es de ajax
 from flask_app import app
 
 #Importamos modelo
@@ -49,17 +49,28 @@ def login():
     #Verificamos que el email exista en la Base de datos
     user = User.get_by_email(request.form) #Recibimos una instancia de usuario O False
 
-    if not user: #Si user = False / sino se cumple con esta funcion sigue con a sigiente y la siguiente y así
-        flash('E-mail no encontrado', 'login')
-        return redirect('/')
+
+#Si user = False / sino se cumple con esta funcion sigue con a sigiente y la siguiente y así
+    if not user: 
+        # flash('E-mail no encontrado', 'login')  #DESCOMENTAR PARA HACER RECETAS NORMAL
+        # return redirect('/')
+
+        return jsonify (message="E-mail no encontrado")  #Esto es de ajax
 
     #user es una instancia con todos los datos de mi usuario
+
     if not bcrypt.check_password_hash(user.password, request.form['password']):
-        flash('Password incorrecto', 'login')
-        return redirect('/')
+        # flash('Password incorrecto', 'login')   #DESCOMENTAR PARA HACER RECETAS NORMAL
+        # return redirect('/')
+
+        return jsonify (message="Passweord incorrecto")  #Esto es de ajax
+
 
     session['user_id'] = user.id
-    return redirect('/dashboard')
+
+    # return redirect('/dashboard')   #DESCOMENTAR PARA HACER RECETAS NORMAL
+
+    return jsonify (message="correcto")  #Esto es de ajax
 
 
 
